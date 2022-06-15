@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 while read params
 do
     [ "${params:0:1}" = "#" ] && continue

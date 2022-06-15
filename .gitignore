@@ -121,3 +121,5 @@ build
 *.prof
 .nfs*
 deprecated/
+/body_models
+/.idea

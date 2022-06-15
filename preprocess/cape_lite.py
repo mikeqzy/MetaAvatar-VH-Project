@@ -14,7 +14,7 @@ from multiprocessing import Pool
 from functools import partial
 from human_body_prior.body_model.body_model import BodyModel
 from utils import export_points
-from im2mesh.utils.logs import create_logger
+# from im2mesh.utils.logs import create_logger
 
 SMPL2IPNET_IDX = np.array([11, 12, 13, 11, 3, 8, 11, 1, 6, 11, 1, 6, 0, 11, 11, 0, 5, 10, 4, 9, 2, 7, 2, 7])
 IPNET2SMPL_IDX = np.array([12, 7, 20, 4, 18, 16, 8, 21, 5, 19, 17, 0, 1, 2])
@@ -106,7 +106,7 @@ def cape_extract(args):
     if not os.path.exists(args.points_folder):
         os.makedirs(args.points_folder)
 
-    logger, _ = create_logger(args.points_folder)
+    # logger, _ = create_logger(args.points_folder)
 
     faces = np.load(os.path.join(args.dataset_path, 'cape_release/misc/smpl_tris.npy'))
     with open(os.path.join(args.dataset_path, 'cape_release/misc/subj_genders.pkl'), 'rb') as f:
@@ -155,7 +155,7 @@ def cape_extract(args):
                 try:
                     data = np.load(frame_path)
                 except Exception:
-                    logger.warning('Something wrong with {}'.format(frame_path))
+                    # logger.warning('Something wrong with {}'.format(frame_path))
                     continue
 
                 pose_body = torch.Tensor(data['pose'][3:66]).view(1, -1).cuda()

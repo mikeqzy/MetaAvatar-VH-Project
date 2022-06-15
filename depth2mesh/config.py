@@ -14,7 +14,7 @@ def load_config(path, default_path=None):
 
     Args:
         path (str): path to config file
-        default_path (bool): whether to use default path
+        default_path ([bool, str]): whether to use default path
     '''
     # Load configuration from file itself
     with open(path, 'r') as f:
@@ -88,14 +88,20 @@ def get_trainer(model, optimizer, cfg, device):
 
 
 # Datasets
-def get_dataset(mode, cfg, subject_idx=None, cloth_split=None, act_split=None, subsampling_rate=1, start_offset=0):
+def get_dataset(mode, cfg,
+                subject_idx=None,
+                cloth_split=None,
+                act_split=None,
+                subsampling_rate=1,
+                start_offset=0,
+                sequence=None,
+                exclude_hand=False):
     ''' Returns the dataset.
 
     Args:
         mode (str): which mode the dataset is. Can be either train, val or test
         cfg (dict): config dictionary
         subject_idx (int or list of int): which subject(s) to use, None means using all subjects
-        cloth_split (list of str): which cloth type(s) to load. If None, will load all cloth types
         cloth_split (list of str): which cloth type(s) to load. If None, will load all cloth types
         act_split (list of str): which action(s) to load. If None, will load all actions
         subsampling_rate (int): frame subsampling rate for the dataset
@@ -106,6 +112,7 @@ def get_dataset(mode, cfg, subject_idx=None, cloth_split=None, act_split=None, s
     dataset_folder = cfg['data']['path']
     use_aug = cfg['data']['use_aug']
     normalized_scale = cfg['data']['normalized_scale']
+    keep_aspect_ratio = cfg['model']['keep_aspect_ratio']
 
     splits = {
         'train': cfg['data']['train_split'],
@@ -158,6 +165,28 @@ def get_dataset(mode, cfg, subject_idx=None, cloth_split=None, act_split=None, s
             normalized_scale=normalized_scale,
             subsampling_rate=subsampling_rate,
             start_offset=start_offset,
+            keep_aspect_ratio=keep_aspect_ratio,
+        )
+    elif dataset_type == 'raw_scan':
+         input_pointcloud_n = cfg['data']['input_pointcloud_n']
+
+         dataset = data.RawScanDataset(
+             dataset_folder,
+             subjects=[subject_idx,],
+             mode=mode,
+             input_pointcloud_n=input_pointcloud_n,
+             normalized_scale=normalized_scale,
+             subsampling_rate=subsampling_rate,
+             start_offset=start_offset,
+             keep_aspect_ratio=keep_aspect_ratio,
+             exclude_hand=exclude_hand,
+         )
+    elif dataset_type == 'aist':
+        dataset = data.AISTDataset(
+            subjects=[subject_idx,],
+            mode=mode,
+            sequence=sequence,
+            subsampling_rate=subsampling_rate,
             keep_aspect_ratio=keep_aspect_ratio,
         )
     else:

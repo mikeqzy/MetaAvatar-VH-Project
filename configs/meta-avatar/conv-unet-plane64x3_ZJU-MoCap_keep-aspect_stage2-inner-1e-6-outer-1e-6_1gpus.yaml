@@ -1,18 +1,16 @@
 method: metaavatar
 data:
   dim: 3
-  dataset: cape_corr 
-  path: data/CAPE_sampling-rate-5
+  dataset: raw_scan
+  path: /local/home/zhqian/data/ZJU-MoCap
   input_type: pointcloud
   input_pointcloud_n: 5000
   input_pointcloud_noise: 0.0
   use_aug: true
   normalized_scale: true
-  train_split: ['00032', '00096', '00127', '00145', '02474', '03223', '03284', '03331', '03383', '03394']
-  val_split: ['00122', '00134', '00215', '03375']
-  test_split: ['00122', '00134', '00215', '03375']
-  single_view: true
-  use_raw_scans: false
+  train_split: ['CoreView_313']
+  val_split: ['CoreView_313']
+  test_split: ['CoreView_313']
 model:
   encoder: pointnet_conv
   skinning_decoder: unstructured_groupnorm
@@ -27,7 +25,7 @@ model:
   skinning_net2: out/meta-avatar/conv-unet-plane64x3_CAPE_keep-aspect_stage0-separate-skinning_1gpus/model_best.pt
 training:
   gpus: [0]
-  out_dir:  out/meta-avatar/conv-unet-plane64x3_CAPE-SV_keep-aspect_stage2-inner-1e-6-outer-1e-6_1gpus
+  out_dir:  out/meta-avatar/conv-unet-plane64x3_ZJU-MoCap_keep-aspect_stage2-inner-1e-6-outer-1e-6_1gpus
   batch_size: 0
   inner_batch_size: 6
   model_selection_metric: loss
@@ -53,4 +51,3 @@ generation:
   n_z: 1
   resolution_0: 256
   upsampling_steps: 0
-

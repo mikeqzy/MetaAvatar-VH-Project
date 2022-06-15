@@ -90,7 +90,7 @@ class CAPECorrDataset(data.Dataset):
             single_view (bool): whether to generate single-view point clouds or full-body point clouds
         '''
         # Attributes
-        self.cape_path = '/home/sfwang/Datasets/CAPE'
+        self.cape_path = '/local/home/zhqian/data/CAPE'
         self.dataset_folder = dataset_folder
         self.raw_scan_folder = raw_scan_folder
         self.use_aug = use_aug

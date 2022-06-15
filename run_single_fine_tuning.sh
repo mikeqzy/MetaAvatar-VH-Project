@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 SUBJECT_IDX=$1
 CLOTH_TYPE=$2
 TRAIN_ACT=$3
